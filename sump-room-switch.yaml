@@ -1,0 +1,5 @@
+substitutions:
+  device_name: sumproomswitch
+  pretty_name: Sump Room Switch
+
+<<: !include ./devices/sonoff/us-1-gang.yaml

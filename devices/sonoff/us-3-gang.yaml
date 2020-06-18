@@ -1,6 +1,9 @@
-<<: !include sonoff-general.yaml
+<<: !include ./sonoff-general.yaml
 
 switch:
+  
+  - !include ./switch/restart.yaml
+
   - platform: gpio
     name: "${pretty_name} CH 1"
     pin: GPIO12
@@ -13,10 +16,10 @@ switch:
     name: "${pretty_name} CH 3"
     pin: GPIO4
 
-  - platform: restart
-    name: "${pretty_name} Restart"
-
 binary_sensor:
+  
+  - !include ./binary_sensor/status.yaml
+  
   - platform: gpio
     pin:
       number: GPIO0
@@ -37,7 +40,4 @@ binary_sensor:
       mode: INPUT_PULLUP
       inverted: True
     name: "${pretty_name} CH 3 Touch"
-
-  - platform: status
-    name: "${pretty_name} Status"
 

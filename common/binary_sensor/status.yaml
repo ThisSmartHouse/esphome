@@ -1,0 +1,2 @@
+platform: status
+name: "${pretty_name} Status"

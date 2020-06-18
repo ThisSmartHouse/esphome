@@ -1,4 +1,4 @@
-<<: !include sonoff-general.yaml
+<<: !include ./sonoff-general.yaml
 
 switch:
   - platform: gpio

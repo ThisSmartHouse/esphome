@@ -1,0 +1,20 @@
+esphome:
+  name: $device_name
+  platform: ESP8266
+  board: esp01_1m
+  build_path: "./build/${device_name}"
+
+<<: !include ../../common/standard.yaml
+<<: !include ../../common/sensor/standard.yaml
+<<: !include ../../common/text_sensor/standard.yaml
+
+output:
+  - platform: esp8266_pwm
+    id: "${device_name}_led"
+    pin: GPIO13
+    inverted: True
+
+light:
+  - platform: monochromatic
+    name: "${pretty_name} LED"
+    output: "${device_name}_led"

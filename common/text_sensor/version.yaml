@@ -1,0 +1,2 @@
+platform: version
+name: "${pretty_name} ESPHome Version"
