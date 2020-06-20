@@ -1,0 +1,18 @@
+esphome:
+  name: $device_name
+  platform: ESP8266
+  board: d1_mini
+  build_path: "./build/${device_name}"
+
+<<: !include ../../common/standard.yaml
+<<: !include ../../common/sensor/standard.yaml
+<<: !include ../../common/text_sensor/standard.yaml
+<<: !include ./standard.yaml
+
+light:
+  - platform: fastled_clockless
+    chipset: WS2812
+    pin: D8
+    num_leds: 59
+    rgb_order: GRB
+    name: "${pretty_name}"

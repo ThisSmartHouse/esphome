@@ -1,0 +1,4 @@
+status_led:
+  pin: 
+    number: D4
+    inverted: true

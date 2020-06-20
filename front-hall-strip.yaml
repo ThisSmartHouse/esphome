@@ -1,0 +1,5 @@
+substitutions:
+  device_name: fronthallstrip
+  pretty_name: "Front Hall Strip"
+
+<<: !include ./devices/wt8266-s1/4-plug-power-strip.yaml

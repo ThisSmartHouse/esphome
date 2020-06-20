@@ -1,7 +1,10 @@
 platform: wifi_info
 ip_address:
   name: "${pretty_name} IP Address"
+  icon: "mdi:ip-network"
 ssid:
   name: "${pretty_name} SSID"
+  icon: "mdi:access-point-network"
 bssid:
   name: "${pretty_name} BSSID"
+  icon: "mdi:table-network"

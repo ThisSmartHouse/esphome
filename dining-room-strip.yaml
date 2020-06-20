@@ -1,0 +1,5 @@
+substitutions:
+  device_name: diningroomstrip
+  pretty_name: "Dining Room Strip"
+
+<<: !include ./devices/wt8266-s1/4-plug-power-strip.yaml

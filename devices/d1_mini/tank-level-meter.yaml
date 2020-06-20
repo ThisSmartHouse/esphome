@@ -1,0 +1,65 @@
+esphome:
+  name: $device_name
+  platform: ESP8266
+  board: d1_mini
+  build_path: "./build/${device_name}"
+
+<<: !include ../../common/standard.yaml
+<<: !include ../../common/sensor/standard.yaml
+<<: !include ../../common/text_sensor/standard.yaml
+<<: !include ./standard.yaml
+
+sensor:
+  - platform: template
+    name: "${pretty_name} Tank Level"
+    lambda: |-
+      
+      if(!id(_25p).state) {
+        if(!id(_50p).state) {
+          if(!id(_75p).state) {
+            if(!id(_100p).state) {
+              return 100.0;
+            } else {
+              return 75.0;
+            }
+          } else {
+            return 50.0;
+          }
+        } else {
+          return 25.0;
+        }
+      } 
+
+      return 0.0;
+      
+    update_interval: 10s
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: D5
+      mode: INPUT_PULLUP
+    name: "${pretty_name} 25%"
+    id: _25p
+    internal: true
+  - platform: gpio
+    pin:
+      number: D6
+      mode: INPUT_PULLUP
+    name: "${pretty_name} 50%"
+    id: _50p
+    internal: true
+  - platform: gpio
+    pin:
+      number: D7
+      mode: INPUT_PULLUP
+    name: "${pretty_name} 75%"
+    id: _75p
+    internal: true
+  - platform: gpio
+    pin:
+      number: D2
+      mode: INPUT_PULLUP
+    name: "${pretty_name} 100%"
+    id: _100p
+    internal: true

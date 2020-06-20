@@ -1,0 +1,25 @@
+# This is for a ESP-01 board that has a built-in DHT22 sensor
+# I have yet to get them to work at all, the boards themselves
+# are crap I think.
+
+# https://smile.amazon.com/gp/product/B07XBRP9WL/
+
+esphome:
+  name: $device_name
+  platform: ESP8266
+  board: esp01_1m
+  build_path: "./build/${device_name}"
+
+<<: !include ../../common/standard.yaml
+<<: !include ../../common/sensor/standard.yaml
+<<: !include ../../common/text_sensor/standard.yaml
+
+sensor:
+  - platform: dht
+    pin: 2
+    temperature:
+      name: "${pretty_name} Temperature"
+    humidity:
+      name: "${pretty_name} Humidity"
+    update_interval: 60s
+    model: AM2302
