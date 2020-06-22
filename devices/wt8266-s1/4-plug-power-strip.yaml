@@ -1,3 +1,5 @@
+# https://smile.amazon.com/gp/product/B07MGF7L2R/
+
 esphome:
   name: $device_name
   platform: ESP8266

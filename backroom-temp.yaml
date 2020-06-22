@@ -1,0 +1,16 @@
+substitutions:
+  device_name: backroomtemp
+  pretty_name: "Backroom Temp. Sensor"
+
+<<: !include ./devices/esp-01/dallas-ds28b20.yaml
+
+sensor:
+  - platform: dallas
+    address: 0x2B041658A721FF28
+    name: "Freshwater Tank Temperature"
+  - platform: dallas
+    address: 0xAF04165895A1FF28
+    name: "Saltwater Tank Temperature"
+  - platform: dallas
+    address: 0xB0041661E7B7FF28
+    name: "Freezer Temperature"
