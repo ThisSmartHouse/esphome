@@ -2,23 +2,25 @@
 
 switch:
   
-  - !include ./switch/restart.yaml
-
   - platform: gpio
     name: "${pretty_name} CH 1"
     pin: GPIO12
+    id: relay1
 
   - platform: gpio
     name: "${pretty_name} CH 2"
     pin: GPIO5
+    id: relay2
 
   - platform: gpio
     name: "${pretty_name} CH 3"
     pin: GPIO4
+    id: relay3
+  
+  - platform: restart
+    name: "${pretty_name} Restart"
 
 binary_sensor:
-  
-  - !include ./binary_sensor/status.yaml
   
   - platform: gpio
     pin:
@@ -26,6 +28,8 @@ binary_sensor:
       mode: INPUT_PULLUP
       inverted: True
     name: "${pretty_name} CH 1 Touch"
+    on_press:
+     - switch.toggle: relay1
 
   - platform: gpio
     pin:
@@ -33,6 +37,8 @@ binary_sensor:
       mode: INPUT_PULLUP
       inverted: True
     name: "${pretty_name} CH 2 Touch"
+    on_press:
+     - switch.toggle: relay2
 
   - platform: gpio
     pin:
@@ -40,4 +46,9 @@ binary_sensor:
       mode: INPUT_PULLUP
       inverted: True
     name: "${pretty_name} CH 3 Touch"
+    on_press:
+     - switch.toggle: relay3
+
+  - platform: status
+    name: "${pretty_name} Status"
 

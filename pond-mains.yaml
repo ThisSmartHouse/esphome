@@ -1,0 +1,5 @@
+substitutions:
+  device_name: "pondmains"
+  pretty_name: "Pond Mains"
+
+<<: !include ./devices/sonoff/pow-r2.yaml

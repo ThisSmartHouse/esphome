@@ -1,0 +1,5 @@
+substitutions:
+  device_name: "hvacpower"
+  pretty_name: "HVAC Power"
+
+<<: !include ./devices/sonoff/pow-r2.yaml

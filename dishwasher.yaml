@@ -1,0 +1,5 @@
+substitutions:
+  device_name: "dishwasher"
+  pretty_name: "Dishwasher"
+
+<<: !include ./devices/sonoff/pow-r2.yaml

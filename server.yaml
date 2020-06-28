@@ -1,0 +1,5 @@
+substitutions:
+  device_name: server
+  pretty_name: "Server"
+
+<<: !include ./devices/sonoff/s31.yaml

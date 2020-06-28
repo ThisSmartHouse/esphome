@@ -1,0 +1,5 @@
+substitutions:
+  device_name: entertainmentcenter1
+  pretty_name: "Entertainment Center 1"
+
+<<: !include ./devices/sonoff/s31.yaml

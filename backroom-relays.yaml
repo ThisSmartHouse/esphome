@@ -1,0 +1,5 @@
+substitutions:
+  device_name: backroomrelays
+  pretty_name: "Backroom Relays"
+
+<<: !include ./devices/sonoff/s31.yaml
