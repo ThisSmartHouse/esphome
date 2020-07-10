@@ -1,0 +1,5 @@
+substitutions:
+  device_name: attic
+  pretty_name: "Attic"
+
+<<: !include ./devices/sonoff/th16.yaml
