@@ -1,0 +1,6 @@
+substitutions:
+  device_name: soldering_iron
+  pretty_name: "Soldering Iron"
+  restore_mode: RESTORE_DEFAULT_OFF
+
+<<: !include ./devices/sonoff/s31.yaml

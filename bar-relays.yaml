@@ -1,5 +1,6 @@
 substitutions:
   device_name: barrelays
   pretty_name: "Bar Relays"
-
+  restore_mode: RESTORE_DEFAULT_ON
+  
 <<: !include ./devices/sonoff/s31.yaml

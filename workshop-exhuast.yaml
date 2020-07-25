@@ -1,0 +1,6 @@
+substitutions:
+  device_name: workshop_exahust
+  pretty_name: "Workshop Exhuast"
+  restore_mode: RESTORE_DEFAULT_OFF
+  
+<<: !include ./devices/sonoff/s31.yaml

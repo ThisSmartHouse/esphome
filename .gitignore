@@ -10,3 +10,6 @@
 /secrets.yaml
 /build/**
 .DS_Store
+test.yaml
+temp.yaml
+

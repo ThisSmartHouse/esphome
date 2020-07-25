@@ -19,7 +19,7 @@ switch:
     name: "${pretty_name} CH 1"
     pin: GPIO12
     id: relay1
-    restore_mode: RESTORE_DEFAULT_ON
+    restore_mode: "${restore_mode}"
 
   - platform: restart
     name: "${pretty_name} Restart"

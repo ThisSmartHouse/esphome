@@ -1,5 +1,6 @@
 substitutions:
   device_name: freshwaterdisplaypower
   pretty_name: "Freshwater Display"
-
+  restore_mode: RESTORE_DEFAULT_ON
+  
 <<: !include ./devices/sonoff/s31.yaml
