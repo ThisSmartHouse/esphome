@@ -2,7 +2,7 @@ substitutions:
   device_name: backroomtemp
   pretty_name: "Backroom Temp. Sensor"
 
-<<: !include ./devices/esp-01/dallas-ds28b20.yaml
+<<: !include ../../devices/esp-01/dallas-ds28b20.yaml
 
 sensor:
   - platform: dallas

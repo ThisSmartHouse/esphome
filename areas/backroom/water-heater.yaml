@@ -2,4 +2,4 @@ substitutions:
   device_name: waterheater
   pretty_name: "Water Heater"
 
-<<: !include ./devices/sonoff/s31.yaml
+<<: !include ../../devices/sonoff/s31.yaml
