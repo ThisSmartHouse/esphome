@@ -21,5 +21,5 @@ sensor:
       name: "${pretty_name} Temperature"
     humidity:
       name: "${pretty_name} Humidity"
-    update_interval: 60s
+    update_interval: 10s
     model: AM2302
