@@ -3,3 +3,15 @@ substitutions:
   pretty_name: "Attic"
 
 <<: !include ./devices/sonoff/th16.yaml
+
+sensor:
+  - platform: dht
+    pin: GPIO14
+    temperature:
+      name: "Attic Temperature"
+    humidity:
+      name: "Attic Humdity"
+    model: SI7021
+
+  - !include ./common/sensor/uptime.yaml
+  - !include ./common/sensor/wifi_signal.yaml
