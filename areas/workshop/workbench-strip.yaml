@@ -1,0 +1,5 @@
+substitutions:
+  device_name: workshopbenchstrip
+  pretty_name: "Workshop Bench Strip"
+
+<<: !include ../../devices/wt8266-s1/4-plug-power-strip.yaml
