@@ -11,15 +11,15 @@ esphome:
 
 <<: !include ../../common/text_sensor/standard.yaml
 
-#status_led:
-#  pin: GPIO13
+status_led:
+  pin: GPIO13
 
 switch:
   - platform: gpio
     name: "${pretty_name} CH 1"
     pin: GPIO12
     id: relay1
-    restore_mode: RESTORE_DEFAULT_ON
+    restore_mode: "${restore_mode}"
 
   - platform: restart
     name: "${pretty_name} Restart"
@@ -35,10 +35,9 @@ binary_sensor:
     name: "${pretty_name} Button"
     on_press:
       - switch.toggle: relay1
-
   - platform: status
     name: "${pretty_name} Status"
 
-uart:
-  rx_pin: RX
-  baud_rate: 4800
+# uart:
+#   rx_pin: RX
+#   baud_rate: 4800

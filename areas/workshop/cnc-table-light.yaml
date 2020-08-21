@@ -1,0 +1,7 @@
+substitutions:
+  device_name: cnc_table_light
+  pretty_name: "CNC Table Light"
+  status_led: GPIO2
+  restore_mode: RESTORE_DEFAULT_OFF
+
+<<: !include ../../devices/esp-01/relay.yaml

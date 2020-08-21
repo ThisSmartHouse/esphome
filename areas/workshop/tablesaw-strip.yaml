@@ -1,0 +1,5 @@
+substitutions:
+  device_name: tablesaw_strip
+  pretty_name: "Tablesaw Strip"
+
+<<: !include ../../devices/wt8266-s1/4-plug-power-strip.yaml

@@ -1,0 +1,6 @@
+substitutions:
+  device_name: freshwaterreturn
+  pretty_name: "Freshwater Return"
+  restore_mode: RESTORE_DEFAULT_ON
+  
+<<: !include ./devices/sonoff/s31.yaml

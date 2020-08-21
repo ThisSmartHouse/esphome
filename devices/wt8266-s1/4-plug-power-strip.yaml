@@ -33,7 +33,7 @@ switch:
       number: GPIO12
       inverted: false
     id: "${device_name}_ch_1"
-    restore_mode: RESTORE_DEFAULT_OFF
+    restore_mode: "${ch1_restore_mode}"
     icon: "mdi:power-socket-us"
     name: "${pretty_name} CH 1"
   - platform: gpio
@@ -41,7 +41,7 @@ switch:
       number: GPIO14
       inverted: false
     id: "${device_name}_ch_2"
-    restore_mode: RESTORE_DEFAULT_OFF
+    restore_mode: "${ch2_restore_mode}"
     icon: "mdi:power-socket-us"
     name: "${pretty_name} CH 2"
   - platform: gpio
@@ -49,7 +49,7 @@ switch:
       number: GPIO15
       inverted: false
     id: "${device_name}_ch_3"
-    restore_mode: RESTORE_DEFAULT_OFF
+    restore_mode: "${ch3_restore_mode}"
     icon: "mdi:power-socket-us"
     name: "${pretty_name} CH 3"
   - platform: gpio
@@ -57,7 +57,7 @@ switch:
       number: GPIO5
       inverted: false
     id: "${device_name}_ch_4"
-    restore_mode: RESTORE_DEFAULT_OFF
+    restore_mode: "${ch4_restore_mode}"
     icon: "mdi:power-socket-us"
     name: "${pretty_name} CH 4"
 

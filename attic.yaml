@@ -1,17 +1,19 @@
+
 substitutions:
   device_name: attic
   pretty_name: "Attic"
+  restore_mode: RESTORE_DEFAULT_OFF
 
 <<: !include ./devices/sonoff/th16.yaml
 
 sensor:
-  - platform: dht
-    pin: GPIO14
-    temperature:
-      name: "Attic Temperature"
-    humidity:
-      name: "Attic Humdity"
-    model: SI7021
-
   - !include ./common/sensor/uptime.yaml
   - !include ./common/sensor/wifi_signal.yaml
+  - platform: dht
+    model: SI7021
+    pin: GPIO14
+    humidity:
+      name: "Attic Humidity"
+    temperature:
+      name: "Attic Temperature"
+    update_interval: 10s

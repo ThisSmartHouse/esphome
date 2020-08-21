@@ -1,0 +1,32 @@
+substitutions:
+  device_name: utility_room_lights
+  pretty_name: "Utility Room Lights"
+
+esphome:
+  name: $device_name
+  platform: ESP8266
+  board: nodemcuv2
+  build_path: "./build/${device_name}"
+
+<<: !include ../../common/standard.yaml
+<<: !include ../../common/sensor/standard.yaml
+<<: !include ../../common/text_sensor/standard.yaml
+
+status_led:
+  pin: 
+    number: D4
+    inverted: true
+
+binary_sensor:
+  - platform: status
+    name: "${pretty_name} Status"
+
+switch:
+  - platform: gpio
+    name: "${pretty_name} CH 1"
+    restore_mode: RESTORE_DEFAULT_OFF
+    pin: D1
+  - platform: gpio
+    name: "${pretty_name} CH 2"
+    restore_mode: RESTORE_DEFAULT_OFF
+    pin: D2
