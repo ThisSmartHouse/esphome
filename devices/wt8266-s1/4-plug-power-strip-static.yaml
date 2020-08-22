@@ -1,0 +1,72 @@
+# https://smile.amazon.com/gp/product/B07MGF7L2R/
+
+esphome:
+  name: $device_name
+  platform: ESP8266
+  board: esp01_1m
+  build_path: "./build/${device_name}"
+  arduino_version: 2.4.2
+
+<<: !include ../../common/standard-static.yaml
+<<: !include ../../common/sensor/standard.yaml
+<<: !include ../../common/text_sensor/standard.yaml
+
+status_led:
+  pin: 
+    number: GPIO4
+    inverted: false
+
+output:
+  - platform: esp8266_pwm
+    id: "${device_name}_led"
+    pin: GPIO0
+    inverted: false
+
+light:
+  - platform: monochromatic
+    name: "${pretty_name} Status LED"
+    output: "${device_name}_led"
+
+switch:
+  - platform: gpio
+    pin:
+      number: GPIO12
+      inverted: false
+    id: "${device_name}_ch_1"
+    restore_mode: "${ch1_restore_mode}"
+    icon: "mdi:power-socket-us"
+    name: "${pretty_name} CH 1"
+  - platform: gpio
+    pin:
+      number: GPIO14
+      inverted: false
+    id: "${device_name}_ch_2"
+    restore_mode: "${ch2_restore_mode}"
+    icon: "mdi:power-socket-us"
+    name: "${pretty_name} CH 2"
+  - platform: gpio
+    pin:
+      number: GPIO15
+      inverted: false
+    id: "${device_name}_ch_3"
+    restore_mode: "${ch3_restore_mode}"
+    icon: "mdi:power-socket-us"
+    name: "${pretty_name} CH 3"
+  - platform: gpio
+    pin:
+      number: GPIO5
+      inverted: false
+    id: "${device_name}_ch_4"
+    restore_mode: "${ch4_restore_mode}"
+    icon: "mdi:power-socket-us"
+    name: "${pretty_name} CH 4"
+
+binary_sensor:
+  - platform: gpio
+    id: "${device_name}_button"
+    name: "${pretty_name} Button"
+    pin:
+      number: GPIO13
+      inverted: true
+    filters:
+      - delayed_on: 10ms

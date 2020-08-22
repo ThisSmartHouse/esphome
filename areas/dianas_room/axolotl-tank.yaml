@@ -1,5 +1,7 @@
 substitutions:
   device_name: dianaaquarium
   pretty_name: "Axolotl Tank"
+  ip_address: 192.168.99.21
+  restore_mode: ALWAYS_ON
 
-<<: !include ../../devices/sonoff/s31.yaml
+<<: !include ../../devices/sonoff/s31-static.yaml

@@ -1,5 +1,0 @@
-substitutions:
-  device_name: downbathswitch
-  pretty_name: Downstairs Bath Lightswitch
-
-<<: !include ../../devices/sonoff/us-1-gang.yaml

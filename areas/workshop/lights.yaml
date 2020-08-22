@@ -1,0 +1,7 @@
+substitutions:
+  device_name: workshop_lights
+  pretty_name: Workshop Lights
+  restore_mode: RESTORE_DEFAULT_OFF
+  ip_address: 192.168.99.9
+
+<<: !include ../../devices/sonoff/us-1-gang-static.yaml

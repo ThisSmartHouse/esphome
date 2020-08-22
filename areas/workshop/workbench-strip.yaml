@@ -1,9 +1,10 @@
 substitutions:
   device_name: workshopbenchstrip
   pretty_name: "Workshop Bench Strip"
+  ip_address: 192.168.99.12
   ch1_restore_mode: ALWAYS_ON
   ch2_restore_mode: ALWAYS_ON
   ch3_restore_mode: RESTORE_DEFAULT_OFF
   ch4_restore_mode: RESTORE_DEFAULT_OFF
 
-<<: !include ../../devices/wt8266-s1/4-plug-power-strip.yaml
+<<: !include ../../devices/wt8266-s1/4-plug-power-strip-static.yaml

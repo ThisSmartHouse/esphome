@@ -1,5 +1,7 @@
 substitutions:
   device_name: workshopac
   pretty_name: "Workshop AC"
+  ip_address: 192.168.99.2
+  restore_mode: RESTORE_DEFAULT_OFF
 
-<<: !include ./devices/sonoff/s31.yaml
+<<: !include ../../devices/sonoff/s31-static.yaml

@@ -2,4 +2,6 @@ substitutions:
   device_name: workshop_fan
   pretty_name: "Workshop Fan"
   restore_mode: RESTORE_DEFAULT_OFF
-<<: !include ../../devices/sonoff/s31.yaml
+  ip_address: 192.168.99.8
+
+<<: !include ../../devices/sonoff/s31-static.yaml

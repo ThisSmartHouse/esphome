@@ -1,5 +1,6 @@
 substitutions:
   device_name: sumproomswitch
   pretty_name: Sump Room Switch
+  ip_address: 192.168.99.20
 
-<<: !include ../../devices/sonoff/us-1-gang.yaml
+<<: !include ../../devices/sonoff/us-1-gang-static.yaml

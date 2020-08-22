@@ -1,5 +1,0 @@
-substitutions:
-  device_name: dianaaquarium
-  pretty_name: "Axolotl Tank"
-  restore_mode: RESTORE_DEFAULT_ON
-<<: !include ./devices/sonoff/s31.yaml

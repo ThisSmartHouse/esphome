@@ -1,6 +1,7 @@
 substitutions:
   device_name: entertainmentcenter1
   pretty_name: "Entertainment Center 1"
-  restoremode: RESTORE_DEFAULT_ON
-  
-<<: !include ../../devices/sonoff/s31.yaml
+  restore_mode: ALWAYS_ON
+  ip_address: 192.168.99.30
+
+<<: !include ../../devices/sonoff/s31-static.yaml

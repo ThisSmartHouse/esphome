@@ -1,0 +1,56 @@
+esphome:
+  name: $device_name
+  platform: ESP8266
+  board: esp01_1m
+  build_path: "./build/${device_name}"
+
+<<: !include ../../common/standard-static.yaml
+<<: !include ../../common/sensor/standard.yaml
+<<: !include ../../common/text_sensor/standard.yaml
+
+status_led:
+  pin: 5
+
+switch:
+  - platform: gpio
+    pin: 13
+    id: relay
+    restore_mode: "${restore_mode}"
+  
+  - platform: template
+    name: "${pretty_name} CH 1"
+    id: "${device_name}_ch_1"
+    turn_on_action:
+      - switch.turn_on: relay
+      - switch.template.publish:
+          id: "${device_name}_ch_1"
+          state: ON
+    turn_off_action:
+      - switch.turn_off: relay
+      - switch.template.publish:
+          id: "${device_name}_ch_1"
+          state: OFF
+    lambda: |-
+      if(id(${device_name}_ch_1).state) {
+        return true;
+      } else {
+        return false;
+      }
+
+  - platform: restart
+    name: "${pretty_name} Restart"
+
+binary_sensor:
+  - platform: gpio
+    id: capacitive_switch
+    pin: 14
+    filters:
+      - delayed_on: 100ms
+      - delayed_off: 100ms
+    on_press:
+      then:
+        - switch.toggle: "${device_name}_ch_1"
+  
+  - platform: status
+    name: "${pretty_name} Status"
+

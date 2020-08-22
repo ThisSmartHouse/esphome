@@ -1,5 +1,10 @@
 substitutions:
   device_name: diningroomstrip
   pretty_name: "Dining Room Strip"
+  ch1_restore_mode: RESTORE_DEFAULT_OFF
+  ch2_restore_mode: RESTORE_DEFAULT_OFF
+  ch3_restore_mode: RESTORE_DEFAULT_OFF
+  ch4_restore_mode: RESTORE_DEFAULT_OFF
+  ip_address: 192.168.99.22
 
-<<: !include ../../devices/wt8266-s1/4-plug-power-strip.yaml
+<<: !include ../../devices/wt8266-s1/4-plug-power-strip-static.yaml

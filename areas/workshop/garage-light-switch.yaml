@@ -1,5 +1,0 @@
-substitutions:
-  device_name: garagelightswitch
-  pretty_name: Garage Lightswitch
-
-<<: !include ../../devices/sonoff/us-1-gang.yaml

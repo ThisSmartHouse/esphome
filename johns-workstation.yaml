@@ -1,6 +1,0 @@
-substitutions:
-  device_name: johnworkstation
-  pretty_name: "John's Workstation"
-  restore_mode: RESTORE_DEFAULT_ON
-  
-<<: !include ./devices/sonoff/s31.yaml

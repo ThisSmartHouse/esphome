@@ -1,5 +1,7 @@
 substitutions:
   device_name: "dishwasher"
   pretty_name: "Dishwasher"
+  restore_mode: ALWAYS_ON
+  ip_address: 192.168.99.26
 
-<<: !include ../../devices/sonoff/pow-r2.yaml
+<<: !include ../../devices/sonoff/pow-r2-static.yaml

@@ -1,0 +1,8 @@
+substitutions:
+  pretty_name: "Miter Saw Switch"
+  device_name: "mitersaw_sw"
+  restore_mode: ALWAYS_OFF
+  ip_address: 192.168.99.1
+
+<<: !include ../../devices/etekcity/eswl01-static.yaml
+

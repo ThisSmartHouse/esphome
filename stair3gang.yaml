@@ -1,5 +1,6 @@
 substitutions:
   device_name: stairwellswitch
   pretty_name: Stairwell Switch
+  ip_address: 192.168.99.37
 
-<<: !include ./devices/sonoff/us-3-gang.yaml
+<<: !include ./devices/sonoff/us-3-gang-static.yaml

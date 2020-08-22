@@ -1,6 +1,7 @@
 substitutions:
   device_name: utility_room_lights
   pretty_name: "Utility Room Lights"
+  ip_address: 192.168.99.34
 
 esphome:
   name: $device_name
@@ -8,7 +9,7 @@ esphome:
   board: nodemcuv2
   build_path: "./build/${device_name}"
 
-<<: !include ../../common/standard.yaml
+<<: !include ../../common/standard-static.yaml
 <<: !include ../../common/sensor/standard.yaml
 <<: !include ../../common/text_sensor/standard.yaml
 

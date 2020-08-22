@@ -1,5 +1,6 @@
 substitutions:
   device_name: downbathswitch
   pretty_name: Downstairs Bath Lightswitch
+  ip_address: 192.168.99.19
 
-<<: !include ../../devices/sonoff/us-1-gang.yaml
+<<: !include ../../devices/sonoff/us-1-gang-static.yaml

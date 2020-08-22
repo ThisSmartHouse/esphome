@@ -1,8 +1,9 @@
 substitutions:
   device_name: backroomtemp
   pretty_name: "Backroom Temp. Sensor"
+  ip_address: 192.168.99.15
 
-<<: !include ../../devices/esp-01/dallas-ds28b20.yaml
+<<: !include ../../devices/esp-01/dallas-ds28b20-static.yaml
 
 sensor:
   - platform: dallas

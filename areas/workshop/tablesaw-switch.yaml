@@ -1,0 +1,8 @@
+substitutions:
+  pretty_name: "Table Saw Switch"
+  device_name: "tablesaw_sw"
+  restore_mode: ALWAYS_OFF
+  ip_address: 192.168.99.5
+
+<<: !include ../../devices/etekcity/eswl01-static.yaml
+
