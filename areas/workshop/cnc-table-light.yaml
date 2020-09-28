@@ -3,5 +3,6 @@ substitutions:
   pretty_name: "CNC Table Light"
   status_led: GPIO2
   restore_mode: RESTORE_DEFAULT_OFF
+  ip_address: 192.168.99.38
 
-<<: !include ../../devices/esp-01/relay.yaml
+<<: !include ../../devices/esp-01/relay-static.yaml
