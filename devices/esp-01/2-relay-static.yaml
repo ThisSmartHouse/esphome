@@ -1,0 +1,48 @@
+# This is for a LC Technology (www.lctech.cc) 2-channel relay
+# with ESP-01 driver
+# https://smile.amazon.com/gp/product/B07WS7D9K1
+
+esphome:
+  name: $device_name
+  platform: ESP8266
+  board: esp01_1m
+  build_path: "./build/${device_name}"
+  platformio_options:
+      board_build.flash_mode: dout
+
+<<: !include ../../common/standard-static.yaml
+<<: !include ../../common/sensor/standard.yaml
+<<: !include ../../common/text_sensor/standard.yaml
+
+logger:
+  baud_rate: 0
+
+uart:
+  baud_rate: 115200
+  tx_pin: TX
+  rx_pin: RX
+  data_bits: 8
+  parity: NONE
+  stop_bits: 1
+
+switch:
+  - platform: template
+    name: "${pretty_name} CH 1"
+    turn_on_action:
+      - logger.log: "Sending ON sequence for CH1..."
+      - uart.write: [0xA0, 0x01, 0x01, 0xA2]
+    turn_off_action:
+      - logger.log: "Sending OFF sequence for CH2..."
+      - uart.write: [0xA0, 0x01, 0x00, 0xA1]
+    optimistic: true
+   
+  - platform: template
+    name: "${pretty_name} CH 2"
+    turn_on_action:
+      - logger.log: "Sending ON sequence for CH2..."
+      - uart.write: [0xA0, 0x02, 0x01, 0xA3]
+    turn_off_action:
+      - logger.log: "Sending OFF sequence CH2..."
+      - uart.write: [0xA0, 0x02, 0x00, 0xA2]
+    optimistic: true
+

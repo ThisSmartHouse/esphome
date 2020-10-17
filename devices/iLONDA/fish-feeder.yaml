@@ -1,0 +1,24 @@
+# This is for an ESP-01 board with built-in single relay
+# https://smile.amazon.com/gp/product/B07T3BDM24
+
+esphome:
+  name: $device_name
+  platform: ESP8266
+  board: esp01_1m
+  build_path: "./build/${device_name}"
+  platformio_options:
+      board_build.flash_mode: dout
+
+<<: !include ../../common/standard.yaml
+<<: !include ../../common/sensor/standard.yaml
+<<: !include ../../common/text_sensor/standard.yaml
+
+status_led:
+  pin: "${status_led}"
+
+switch:
+  - platform: gpio
+    name: "${pretty_name} CH 1"
+    pin: GPIO0
+    inverted: true
+    restore_mode: "${restore_mode}"

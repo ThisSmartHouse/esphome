@@ -1,0 +1,7 @@
+substitutions:
+  device_name: "saltwater_feeder"
+  pretty_name: "Saltwater"
+  ip_address: 192.168.99.43
+  
+<<: !include ../../devices/iLONDA/fish-feeder-static.yaml
+
