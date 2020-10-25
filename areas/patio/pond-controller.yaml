@@ -1,0 +1,18 @@
+substitutions:
+  pretty_name: "Pond Controller"
+  device_name: pond_controller
+  s2_restore_mode: RESTORE_DEFAULT_OFF
+  s3_restore_mode: RESTORE_DEFAULT_OFF
+  s4_restore_mode: RESTORE_DEFAULT_OFF
+  s5_restore_mode: RESTORE_DEFAULT_OFF
+  ip_address: 192.168.99.44
+
+<<: !include ../../devices/linksprite/r4-static.yaml
+
+dallas:
+  - pin: RX
+
+sensor:
+  - platform: dallas
+    index: 0
+    name: "Pond Temperature"

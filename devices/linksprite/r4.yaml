@@ -1,0 +1,41 @@
+# https://smile.amazon.com/gp/product/B07MGF7L2R/
+
+esphome:
+  name: $device_name
+  platform: ESP8266
+  board: esp01_1m
+  build_path: "./build/${device_name}"
+  platformio_options:
+    board_build.flash_mode: qio
+
+<<: !include ../../common/standard.yaml
+<<: !include ../../common/sensor/standard.yaml
+<<: !include ../../common/text_sensor/standard.yaml
+
+status_led:
+  pin: 
+    number: GPIO2
+    inverted: true
+
+switch:
+  - platform: gpio
+    pin: GPIO16
+    restore_mode: "${s2_restore_mode}"
+    icon: "mdi:power-socket-us"
+    name: "${pretty_name} S2"
+  - platform: gpio
+    pin: GPIO14
+    restore_mode: "${s3_restore_mode}"
+    icon: "mdi:power-socket-us"
+    name: "${pretty_name} S3"
+  - platform: gpio
+    pin: GPIO13
+    restore_mode: "${s5_restore_mode}"
+    icon: "mdi:power-socket-us"
+    name: "${pretty_name} S5"
+  - platform: gpio
+    pin: GPIO12
+    restore_mode: "${s4_restore_mode}"
+    icon: "mdi:power-socket-us"
+    name: "${pretty_name} S4"
+
