@@ -26,6 +26,7 @@ light:
   - platform: monochromatic
     name: "${pretty_name} Status LED"
     output: "${device_name}_led"
+    restore_mode: ALWAYS_ON
 
 switch:
   - platform: gpio

@@ -1,0 +1,10 @@
+substitutions:
+  device_name: hot_tub_strip
+  pretty_name: "Hot Tub Strip"
+  ch1_restore_mode: RESTORE_DEFAULT_OFF
+  ch2_restore_mode: RESTORE_DEFAULT_OFF
+  ch3_restore_mode: RESTORE_DEFAULT_OFF
+  ch4_restore_mode: RESTORE_DEFAULT_OFF
+  ip_address: 192.168.99.45
+
+<<: !include ../../devices/wt8266-s1/4-plug-power-strip-static.yaml
