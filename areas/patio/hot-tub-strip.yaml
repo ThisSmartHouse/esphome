@@ -1,10 +1,101 @@
+# https://smile.amazon.com/gp/product/B07MGF7L2R/
+
+# Not using the devices/wt8266-s1/4-plug-power-strip-static.yaml
+# template here because we want to have a baked-in power-off of
+# the heated pathway sockets in 5 hrs as a failsafe.
+
 substitutions:
   device_name: hot_tub_strip
   pretty_name: "Hot Tub Strip"
   ch1_restore_mode: RESTORE_DEFAULT_OFF
-  ch2_restore_mode: RESTORE_DEFAULT_OFF
-  ch3_restore_mode: RESTORE_DEFAULT_OFF
+  ch2_restore_mode: ALWAYS_ON
+  ch3_restore_mode: ALWAYS_ON
   ch4_restore_mode: RESTORE_DEFAULT_OFF
   ip_address: 192.168.99.45
 
-<<: !include ../../devices/wt8266-s1/4-plug-power-strip-static.yaml
+esphome:
+  name: $device_name
+  platform: ESP8266
+  board: esp01_1m
+  build_path: "./build/${device_name}"
+  arduino_version: 2.4.2
+
+<<: !include ../../common/standard-static.yaml
+<<: !include ../../common/sensor/standard.yaml
+<<: !include ../../common/text_sensor/standard.yaml
+
+status_led:
+  pin: 
+    number: GPIO4
+    inverted: false
+
+output:
+  - platform: esp8266_pwm
+    id: "${device_name}_led"
+    pin: GPIO0
+    inverted: false
+
+light:
+  - platform: monochromatic
+    name: "${pretty_name} Status LED"
+    output: "${device_name}_led"
+    restore_mode: ALWAYS_ON
+
+switch:
+  # Heated Pathway Socket (stairs)
+  - platform: gpio
+    pin:
+      number: GPIO12
+      inverted: false
+    id: "hot_tub_strip_ch_1"
+    restore_mode: RESTORE_DEFAULT_OFF
+    icon: "mdi:power-socket-us"
+    name: "${pretty_name} CH 1"
+    on_turn_on:
+      then:
+        - delay: 5h
+        - switch.turn_off: "hot_tub_strip_ch_1"
+  # TV 
+  - platform: gpio
+    pin:
+      number: GPIO14
+      inverted: false
+    id: "${device_name}_ch_2"
+    restore_mode: ALWAYS_ON
+    icon: "mdi:power-socket-us"
+    name: "${pretty_name} CH 2"
+
+  # USB Power
+  - platform: gpio
+    pin:
+      number: GPIO15
+      inverted: false
+    id: "${device_name}_ch_3"
+    restore_mode: ALWAYS_ON
+    icon: "mdi:power-socket-us"
+    name: "${pretty_name} CH 3"
+
+  # Heated Pathway (walkway)
+  - platform: gpio
+    pin:
+      number: GPIO5
+      inverted: false
+    id: "hot_tub_strip_ch_4"
+    icon: "mdi:power-socket-us"
+    name: "${pretty_name} CH 4"
+    on_turn_on:
+      then:
+        - delay: 5h
+        - switch.turn_off: "hot_tub_strip_ch_4"
+
+binary_sensor:
+  - platform: gpio
+    id: "${device_name}_button"
+    name: "${pretty_name} Button"
+    pin:
+      number: GPIO13
+      inverted: true
+    filters:
+      - delayed_on: 10ms
+  - platform: status
+    name: "${pretty_name} Status"
