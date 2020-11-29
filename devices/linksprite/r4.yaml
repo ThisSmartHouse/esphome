@@ -12,8 +12,15 @@ esphome:
 <<: !include ../../common/sensor/standard.yaml
 <<: !include ../../common/text_sensor/standard.yaml
 
+logger:
+  baud_rate: 0
+
+binary_sensor:
+  - platform: status
+    name: "${pretty_name} Status"
+
 status_led:
-  pin: 
+  pin:
     number: GPIO2
     inverted: true
 
@@ -38,4 +45,3 @@ switch:
     restore_mode: "${s4_restore_mode}"
     icon: "mdi:power-socket-us"
     name: "${pretty_name} S4"
-

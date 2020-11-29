@@ -15,6 +15,10 @@ esphome:
 logger:
   baud_rate: 0
 
+binary_sensor:
+  - platform: status
+    name: "${pretty_name} Status"
+
 status_led:
   pin: 
     number: GPIO2

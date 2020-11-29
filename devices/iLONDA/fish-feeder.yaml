@@ -14,11 +14,38 @@ esphome:
 <<: !include ../../common/text_sensor/standard.yaml
 
 status_led:
-  pin: "${status_led}"
+  pin: GPIO5
+
+sensor:
+  - platform: pulse_counter
+    pin: GPIO12
+    name: "${pretty_name} Counter"
+
+binary_sensor:
+  - platform: gpio
+    id: activate_button
+    internal: true
+    pin: GPIO4
+    on_release:
+      then:
+        - switch.turn_on:  relay_1
+        - delay: 3s
+        - switch.turn_off: relay_1
+  - platform: status
+    name: "${pretty_name} Status"
 
 switch:
+  - platform: template
+    name: "Feed ${pretty_name}"
+    icon: mdi:fishbowl
+    turn_on_action:
+      - switch.turn_on: relay_1
+      - delay: 3s
+      - switch.turn_off: relay_1
+
   - platform: gpio
-    name: "${pretty_name} CH 1"
-    pin: GPIO0
-    inverted: true
-    restore_mode: "${restore_mode}"
+    name: "${pretty_name} Feeder"
+    pin: GPIO14
+    internal: true
+    id: relay_1
+    restore_mode: ALWAYS_OFF

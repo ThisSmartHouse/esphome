@@ -14,5 +14,9 @@ esphome:
 <<: !include ../../common/sensor/standard.yaml
 <<: !include ../../common/text_sensor/standard.yaml
 
+binary_sensor:
+  - platform: status
+    name: "${pretty_name} Status"
+
 dallas:
   - pin: 2

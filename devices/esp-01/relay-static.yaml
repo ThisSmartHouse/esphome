@@ -16,6 +16,10 @@ esphome:
 #status_led:
 #  pin: "${status_led}"
 
+binary_sensor:
+  - platform: status
+    name: "${pretty_name} Status"
+
 switch:
   - platform: gpio
     name: "${pretty_name} CH 1"

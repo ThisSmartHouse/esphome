@@ -29,6 +29,8 @@ binary_sensor:
         - switch.turn_on:  relay_1
         - delay: 3s
         - switch.turn_off: relay_1
+  - platform: status
+    name: "${pretty_name} Status"
 
 switch:
   - platform: template
