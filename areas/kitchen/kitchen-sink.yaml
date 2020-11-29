@@ -25,9 +25,9 @@ binary_sensor:
 switch:
   - platform: gpio
     name: "${pretty_name} CH 1"
-    restore_mode: RESTORE_DEFAULT_OFF
+    restore_mode: ALWAYS_ON
     pin: D1
   - platform: gpio
     name: "${pretty_name} CH 2"
-    restore_mode: RESTORE_DEFAULT_OFF
+    restore_mode: ALWAYS_OFF
     pin: D2
