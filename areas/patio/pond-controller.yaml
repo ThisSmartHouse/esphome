@@ -4,7 +4,7 @@ substitutions:
   s2_restore_mode: RESTORE_DEFAULT_OFF
   s3_restore_mode: RESTORE_DEFAULT_OFF
   s4_restore_mode: RESTORE_DEFAULT_OFF
-  s5_restore_mode: RESTORE_DEFAULT_OFF
+  s5_restore_mode: ALWAYS_ON
   ip_address: 192.168.99.44
 
 <<: !include ../../devices/linksprite/r4-static.yaml

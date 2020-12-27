@@ -1,7 +1,7 @@
 substitutions:
-  device_name: utility_room_lights
-  pretty_name: "Utility Room Lights"
-  ip_address: 192.168.99.34
+  device_name: patio_switches
+  pretty_name: "Patio Switches"
+  ip_address: 192.168.99.46
 
 esphome:
   name: $device_name
@@ -25,7 +25,7 @@ binary_sensor:
 switch:
   - platform: gpio
     name: "${pretty_name} CH 1"
-    restore_mode: RESTORE_DEFAULT_OFF
+    restore_mode: ALWAYS_ON
     pin: D1
   - platform: gpio
     name: "${pretty_name} CH 2"

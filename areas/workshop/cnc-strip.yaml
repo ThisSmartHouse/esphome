@@ -4,7 +4,7 @@ substitutions:
   ip_address: 192.168.99.10
   ch1_restore_mode: ALWAYS_OFF
   ch2_restore_mode: ALWAYS_ON
-  ch3_restore_mode: ALWAYS_OFF
+  ch3_restore_mode: ALWAYS_ON
   ch4_restore_mode: ALWAYS_ON
 
 <<: !include ../../devices/wt8266-s1/4-plug-power-strip-static.yaml
