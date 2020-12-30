@@ -1,0 +1,16 @@
+
+<<: !include ../../common/standard.yaml
+<<: !include ../../common/sensor/standard.yaml
+<<: !include ../../common/text_sensor/standard.yaml
+
+logger:
+  esp8266_store_log_strings_in_flash: False
+  
+switch:
+  - platform: custom
+    lambda: |-
+      auto large_feeder = new LargeFeederSwitch();
+      App.register_component(large_feeder);
+      return {large_feeder};
+    switches:
+      name: "${pretty_name} Feeder"

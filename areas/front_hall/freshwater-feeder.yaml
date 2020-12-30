@@ -1,0 +1,15 @@
+substitutions:
+  pretty_name: "Freshwater"
+  device_name: "freshwater_feeder"
+  
+esphome:
+  name: $device_name
+  platform: ESP8266
+  board: d1_mini
+  build_path: "./build/${device_name}"
+  includes:
+    - ../../devices/d1_mini/largeFeeder.h
+  libraries:
+    - "AccelStepper"
+
+<<: !include ../../devices/d1_mini/largeFeeder.yaml

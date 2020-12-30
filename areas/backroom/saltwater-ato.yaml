@@ -1,0 +1,96 @@
+substitutions:
+  device_name: saltwater_ato
+  pretty_name: "Saltwater ATO"
+  failsafe_time: 30s
+  refill_delay: 30s
+
+esphome:
+  name: $device_name
+  platform: ESP8266
+  board: d1_mini
+  build_path: "./build/${device_name}"
+
+<<: !include ../../common/standard.yaml
+<<: !include ../../common/sensor/standard.yaml
+<<: !include ../../common/text_sensor/standard.yaml
+
+globals:
+  - id: solenoid_failsafe
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+
+script:
+  - id: activate_solenoid
+    mode: restart
+    then:
+      - delay: ${refill_delay}
+      - logger.log: "Water level low, activating solenoid"
+      - switch.turn_on: solenoid
+      - switch.turn_on: led
+      - delay: ${failsafe_time}
+      - logger.log: "Failsafe time exceeded! Turning off!"
+      - script.execute: deactivate_solenoid
+      - lambda: |-
+          id(solenoid_failsafe) = true;
+          ESP_LOGD("${device_name}", "Solenoid failsafe activated! Please reboot.");
+  - id: deactivate_solenoid
+    mode: restart
+    then:
+      - switch.turn_off: solenoid
+      - switch.turn_off: led
+
+switch:
+  - platform: restart
+    name: "${pretty_name} Restart"
+
+  - platform: gpio
+    internal: true
+    id: led
+    restore_mode: ALWAYS_OFF
+    inverted: true
+    pin: D4
+
+  - platform: gpio
+    pin: D6
+    id: solenoid
+    internal: true
+    restore_mode: ALWAYS_OFF
+
+binary_sensor:
+  - platform: template
+    name: "${pretty_name} Active"
+    lambda: |-
+      return id(solenoid).state;
+
+  - platform: template
+    name: "${pretty_name} Alarm"
+    lambda: |-
+      return id(solenoid_failsafe);
+
+  - platform: gpio
+    pin:
+      number: D7
+      mode: INPUT_PULLUP
+    name: "${pretty_name} Water Level"
+    id: water_level
+    filters:
+      - delayed_on: 10ms
+      - delayed_off: 10ms
+    on_state:
+      then:
+        - if:
+            condition:
+                binary_sensor.is_on: water_level
+            then:
+              - logger.log: "Water level restored, deactiving solenoid"
+              - script.stop: activate_solenoid
+              - script.execute: deactivate_solenoid
+        - if:
+            condition:
+              and:
+                - binary_sensor.is_off: water_level
+                - lambda: |-
+                    return id(solenoid_failsafe) != true;
+            then:
+              - script.execute: activate_solenoid
