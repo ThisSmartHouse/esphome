@@ -1,0 +1,63 @@
+esphome:
+  name: $device_name
+  platform: ESP8266
+  board: esp01_1m
+  build_path: "./build/${device_name}"
+
+<<: !include ../../common/wifi.yaml
+<<: !include ../../common/captive_portal.yaml
+<<: !include ../../common/api.yaml
+<<: !include ../../common/ota.yaml
+
+<<: !include ../../common/text_sensor/standard.yaml
+
+status_led:
+  pin: GPIO13
+
+switch:
+  - platform: gpio
+    name: "${pretty_name} CH 1"
+    pin: GPIO12
+    id: relay1
+    restore_mode: "${restore_mode}"
+
+  - platform: restart
+    name: "${pretty_name} Restart"
+
+# Need to turn off the serial logger because
+# We are using the Serial connection for the
+# power sensors.
+
+logger:
+  baud_rate: 0
+  level: DEBUG
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode: INPUT_PULLUP
+      inverted: false
+    name: "${pretty_name} Button"
+    on_press:
+      - switch.toggle: relay1
+
+  - platform: status
+    name: "${pretty_name} Status"
+
+sensor:
+  - platform: cse7766
+    current:
+      name: "${pretty_name} Current"
+    voltage:
+      name: "${pretty_name} Voltage"
+    power:
+      name: "${pretty_name} Power"
+    update_interval: 10s
+
+  - !include ../../common/sensor/uptime.yaml
+  - !include ../../common/sensor/wifi_signal.yaml
+
+uart:
+  rx_pin: RX
+  baud_rate: 4800

@@ -1,0 +1,8 @@
+substitutions:
+  device_name: "bumblebee"
+  pretty_name: "Bumblebee Power"
+  restore_mode: ALWAYS_OFF
+  ip_address: 192.168.99.47
+
+<<: !include ./bumblebee-base.yaml
+
