@@ -4,4 +4,107 @@ substitutions:
   restore_mode: ALWAYS_OFF
   ip_address: 192.168.99.6
 
-<<: !include ../../devices/sonoff/s31-static.yaml
+esphome:
+  name: $device_name
+  platform: ESP8266
+  board: esp01_1m
+  build_path: "./build/${device_name}"
+
+<<: !include ../../common/wifi-static.yaml
+<<: !include ../../common/captive_portal.yaml
+<<: !include ../../common/api.yaml
+<<: !include ../../common/ota.yaml
+
+<<: !include ../../common/text_sensor/standard.yaml
+
+status_led:
+  pin: GPIO13
+
+globals:
+  - id: failsafe_time
+    type: int
+    restore_value: no
+    initial_value: '15' # In Minutes
+
+script:
+  - id: turn_on_iron
+    mode: restart
+    then:
+      - switch.turn_on: relay1
+      - delay: !lambda "return id(failsafe_time) * 1000 * 60;"
+      - script.execute: turn_off_iron
+  - id: turn_off_iron
+    mode: restart
+    then:
+      - script.stop: turn_on_iron
+      - switch.turn_off: relay1
+
+switch:
+  - platform: template
+    name: "${pretty_name} CH 1"
+    id: "${device_name}_ch_1"
+    restore_state: false
+    icon: "mdi:soldering-iron"
+    lambda: |-
+      return id(relay1).state;
+    turn_on_action:
+      - script.execute: turn_on_iron
+    turn_off_action:
+      - script.execute: turn_off_iron
+
+  - platform: gpio
+    pin: GPIO12
+    id: relay1
+    internal: true
+
+  - platform: restart
+    name: "${pretty_name} Restart"
+
+# Need to turn off the serial logger because
+# We are using the Serial connection for the
+# power sensors.
+
+logger:
+  baud_rate: 0
+  level: DEBUG
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode: INPUT_PULLUP
+      inverted: false
+    name: "${pretty_name} Button"
+    on_press:
+      - switch.toggle: "${device_name}_ch_1"
+
+  - platform: status
+    name: "${pretty_name} Status"
+
+sensor:
+  - platform: cse7766
+    current:
+      name: "${pretty_name} Current"
+    voltage:
+      name: "${pretty_name} Voltage"
+    power:
+      name: "${pretty_name} Power"
+    update_interval: 10s
+
+  - !include ../../common/sensor/uptime.yaml
+  - !include ../../common/sensor/wifi_signal.yaml
+
+  - platform: homeassistant
+    id: hass_soldering_iron_failsafe_value
+    entity_id: input_number.soldering_iron_timeout
+    internal: true
+    on_value:
+      - lambda: |-
+          id(failsafe_time) = x;
+      - logger.log:
+          format: "Setting new failsafe time to %d"
+          args: ['id(failsafe_time)']
+
+uart:
+  rx_pin: RX
+  baud_rate: 4800

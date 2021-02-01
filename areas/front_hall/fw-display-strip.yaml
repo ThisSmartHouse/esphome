@@ -7,4 +7,147 @@ substitutions:
   ch4_restore_mode: RESTORE_DEFAULT_OFF
   ip_address: 192.168.99.25
 
-<<: !include ../../devices/wt8266-s1/4-plug-power-strip-static.yaml
+# https://smile.amazon.com/gp/product/B07MGF7L2R/
+
+esphome:
+  name: $device_name
+  platform: ESP8266
+  board: esp01_1m
+  build_path: "./build/${device_name}"
+  arduino_version: 2.4.2
+
+<<: !include ../../common/standard-static.yaml
+<<: !include ../../common/sensor/standard.yaml
+<<: !include ../../common/text_sensor/standard.yaml
+
+globals:
+  - id: failsafe
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+  - id: failsafe_time
+    type: int
+    restore_value: no
+    initial_value: '15'
+
+script:
+  - id: activate_waterer
+    mode: restart
+    then:
+      - logger.log: "Turning on watering pump"
+      - switch.turn_on: "${device_name}_ch_3_real"
+      - delay: !lambda "return id(failsafe_time) * 1000;"
+      - logger.log: "Failsafe time exceeded! Turning off!"
+      - script.execute: deactivate_waterer
+      - lambda: |-
+          id(failsafe) = true;
+          ESP_LOGD("${device_name}", "Failsafe activated! Please reboot to re-enable");
+
+  - id: deactivate_waterer
+    mode: restart
+    then:
+      - switch.turn_off: "${device_name}_ch_3_real"
+
+status_led:
+  pin: 
+    number: GPIO4
+    inverted: false
+
+output:
+  - platform: esp8266_pwm
+    id: "${device_name}_led"
+    pin: GPIO0
+    inverted: false
+
+light:
+  - platform: monochromatic
+    name: "${pretty_name} Status LED"
+    output: "${device_name}_led"
+    restore_mode: ALWAYS_ON
+
+sensor:
+  - platform: homeassistant
+    id: hass_watering_pump_failsafe_value
+    entity_id: input_number.turtle_watering_pump_failsafe
+    internal: true
+    on_value:
+      - lambda: |-
+          id(failsafe_time) = x;
+      - logger.log:
+          format: "Setting new failsafe time to %d"
+          args: ['id(failsafe_time)']
+
+switch:
+  - platform: restart
+    name: "${pretty_name} Restart"
+
+  - platform: gpio
+    pin:
+      number: GPIO12
+      inverted: false
+    id: "${device_name}_ch_1"
+    restore_mode: "${ch1_restore_mode}"
+    icon: "mdi:power-socket-us"
+    name: "${pretty_name} CH 1"
+  - platform: gpio
+    pin:
+      number: GPIO14
+      inverted: false
+    id: "${device_name}_ch_2"
+    restore_mode: "${ch2_restore_mode}"
+    icon: "mdi:power-socket-us"
+    name: "${pretty_name} CH 2"
+
+  # Channel 3 controls a water pump to water the turtle plants so we
+  # need to make sure it doesn't ever stay on forever
+  - platform: template
+    id: "${device_name}_ch_3"
+    name: "${pretty_name} CH 3"
+    restore_state: false
+    lambda: |-
+      return id(${device_name}_ch_3_real).state;
+    icon: "mdi:power-socket-us"
+    turn_on_action:
+      - if:
+          condition:
+            lambda: |-
+              return id(failsafe) != true;
+          then:
+            - script.execute: activate_waterer
+    turn_off_action:
+      - script.stop: activate_waterer
+      - script.execute: deactivate_waterer
+
+  - platform: gpio
+    pin:
+      number: GPIO15
+      inverted: false
+    id: "${device_name}_ch_3_real"
+    internal: true
+
+  - platform: gpio
+    pin:
+      number: GPIO5
+      inverted: false
+    id: "${device_name}_ch_4"
+    restore_mode: "${ch4_restore_mode}"
+    icon: "mdi:power-socket-us"
+    name: "${pretty_name} CH 4"
+
+binary_sensor:
+  - platform: gpio
+    id: "${device_name}_button"
+    name: "${pretty_name} Button"
+    pin:
+      number: GPIO13
+      inverted: true
+    filters:
+      - delayed_on: 10ms
+
+  - platform: status
+    name: "${pretty_name} Status"
+
+  - platform: template
+    name: "${pretty_name} Alarm"
+    lambda: |-
+      return id(failsafe);

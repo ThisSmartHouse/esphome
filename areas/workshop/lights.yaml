@@ -4,4 +4,87 @@ substitutions:
   restore_mode: RESTORE_DEFAULT_OFF
   ip_address: 192.168.99.9
 
-<<: !include ../../devices/sonoff/us-1-gang-static.yaml
+esphome:
+  name: $device_name
+  platform: ESP8266
+  board: esp01_1m
+  build_path: "./build/${device_name}"
+
+<<: !include ../../common/standard-static.yaml
+<<: !include ../../common/sensor/standard.yaml
+<<: !include ../../common/text_sensor/standard.yaml
+
+globals:
+  - id: failsafe_time
+    type: int
+    restore_value: no
+    initial_value: '120' # In Minutes
+
+script:
+  - id: turn_on_lights
+    mode: restart
+    then:
+      - switch.turn_on: relay1
+      - delay: !lambda "return id(failsafe_time) * 1000 * 60;"
+      - script.execute: turn_off_lights
+  - id: turn_off_lights
+    mode: restart
+    then:
+      - script.stop: turn_on_lights
+      - switch.turn_off: relay1
+
+output:
+  - platform: esp8266_pwm
+    id: "${device_name}_led"
+    pin: GPIO13
+    inverted: True
+
+light:
+  - platform: monochromatic
+    name: "${pretty_name} LED"
+    output: "${device_name}_led"
+
+switch:
+  - platform: template
+    name: "${pretty_name} CH 1"
+    id: "${device_name}_ch_1"
+    restore_state: false
+    icon: "mdi:lightbulb"
+    lambda: |-
+      return id(relay1).state;
+    turn_on_action:
+      - script.execute: turn_on_lights
+    turn_off_action:
+      - script.execute: turn_off_lights
+
+  - platform: gpio
+    pin: GPIO12
+    id: relay1
+    internal: true
+
+  - platform: restart
+    name: "${pretty_name} Restart"
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "${pretty_name} CH 1 Touch"
+    on_press:
+     - switch.toggle: "${device_name}_ch_1"
+  - platform: status
+    name: "${pretty_name} Status"
+
+sensor:
+  - platform: homeassistant
+    id: hass_workshop_lights_failsafe_value
+    entity_id: input_number.workshop_lights_timeout
+    internal: true
+    on_value:
+      - lambda: |-
+          id(failsafe_time) = x;
+      - logger.log:
+          format: "Setting new timeout time to %d"
+          args: ['id(failsafe_time)']
