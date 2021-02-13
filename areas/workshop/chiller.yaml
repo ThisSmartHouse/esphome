@@ -1,0 +1,7 @@
+substitutions:
+  device_name: bumblebee_chiller
+  pretty_name: "Bumblebee Chiller"
+  restore_mode: RESTORE_DEFAULT_OFF
+  ip_address: 192.168.99.48
+
+<<: !include ../../devices/sonoff/s31-static.yaml
