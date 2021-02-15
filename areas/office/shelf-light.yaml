@@ -1,0 +1,7 @@
+substitutions:
+  device_name: office_shelf
+  pretty_name: "Office Shelf"
+  restore_mode: RESTORE_DEFAULT_ON
+  ip_address: 192.168.99.49
+
+<<: !include ../../devices/sonoff/s31-static.yaml
