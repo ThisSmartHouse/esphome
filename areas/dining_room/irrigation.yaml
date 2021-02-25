@@ -1,0 +1,102 @@
+substitutions:
+  device_name: dining_room_irrigation
+  pretty_name: "Dining Room Irrigation"
+  ip_address: 192.168.99.49
+
+esphome:
+  name: $device_name
+  platform: ESP8266
+  board: d1_mini
+  build_path: "./build/${device_name}"
+
+<<: !include ../../common/standard-static.yaml
+<<: !include ../../common/sensor/standard.yaml
+<<: !include ../../common/text_sensor/standard.yaml
+
+globals:
+  - id: failsafe
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+  - id: failsafe_time
+    type: int
+    restore_value: no
+    initial_value: '15'
+
+script:
+  - id: activate_waterer
+    mode: restart
+    then:
+      - logger.log: "Turning on watering pump"
+      - switch.turn_on: solenoid
+      - switch.turn_on: led
+      - delay: !lambda "return id(failsafe_time) * 1000;"
+      - logger.log: "Failsafe time exceeded! Turning off!"
+      - script.execute: deactivate_waterer
+      - lambda: |-
+          id(failsafe) = true;
+          ESP_LOGD("${device_name}", "Failsafe activated! Please reboot to re-enable");
+
+  - id: deactivate_waterer
+    mode: restart
+    then:
+      - switch.turn_off: solenoid
+      - switch.turn_off: led
+
+switch:
+  - platform: restart
+    name: "${pretty_name} Restart"
+
+  - platform: gpio
+    internal: true
+    id: led
+    restore_mode: ALWAYS_OFF
+    inverted: true
+    pin: D4
+
+  - platform: gpio
+    pin: D6
+    id: solenoid
+    internal: true
+    restore_mode: ALWAYS_OFF
+
+  - platform: template
+    id: "${device_name}_solenoid"
+    name: "${pretty_name} Solenoid"
+    restore_state: false
+    lambda: |-
+      return id(solenoid).state;
+    icon: "mdi:sprout"
+    turn_on_action:
+      - if:
+          condition:
+            lambda: |-
+              return id(failsafe) != true;
+          then:
+            - script.execute: activate_waterer
+    turn_off_action:
+      - script.stop: activate_waterer
+      - script.execute: deactivate_waterer
+
+binary_sensor:
+  - platform: template
+    name: "${pretty_name} Active"
+    lambda: |-
+      return id(solenoid).state;
+
+  - platform: template
+    name: "${pretty_name} Alarm"
+    lambda: |-
+      return id(failsafe);
+
+sensor:
+  - platform: homeassistant
+    id: hass_watering_pump_failsafe_value
+    entity_id: input_number.dining_room_plant_irrigation_failsafe
+    internal: true
+    on_value:
+      - lambda: |-
+          id(failsafe_time) = x;
+      - logger.log:
+          format: "Setting new failsafe time to %d"
+          args: ['id(failsafe_time)']
