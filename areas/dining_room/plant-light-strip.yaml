@@ -1,0 +1,10 @@
+substitutions:
+  device_name: plant_light_strip
+  pretty_name: "Dining Room Plant Strip"
+  ch1_restore_mode: RESTORE_DEFAULT_ON
+  ch2_restore_mode: RESTORE_DEFAULT_ON
+  ch3_restore_mode: RESTORE_DEFAULT_ON
+  ch4_restore_mode: RESTORE_DEFAULT_ON
+  ip_address: 192.168.99.52
+
+<<: !include ../../devices/wt8266-s1/4-plug-power-strip-static.yaml

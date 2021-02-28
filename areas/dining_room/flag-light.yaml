@@ -1,0 +1,7 @@
+substitutions:
+  device_name: flag_light
+  pretty_name: "Flag Light"
+  restore_mode: RESTORE_DEFAULT_OFF
+  ip_address: 192.168.99.51
+
+<<: !include ../../devices/sonoff/s31-static.yaml
