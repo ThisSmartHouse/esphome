@@ -1,0 +1,22 @@
+<<: !include ./sonoff-general-static.yaml
+
+switch:
+  - platform: gpio
+    name: "${pretty_name} CH 1"
+    pin: GPIO12
+    id: relay1
+
+  - platform: restart
+    name: "${pretty_name} Restart"
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      inverted: True
+    name: "${pretty_name} CH 1 Button"
+    on_press:
+     - switch.toggle: relay1
+
+  - platform: status
+    name: "${pretty_name} Status"

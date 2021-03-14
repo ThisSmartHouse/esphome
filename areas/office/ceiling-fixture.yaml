@@ -1,0 +1,7 @@
+substitutions:
+  device_name: office_ceiling
+  pretty_name: "Office Ceiling"
+  restore_mode: ALWAYS_ON
+  ip_address: 192.168.99.53
+
+<<: !include ../../devices/sonoff/basic-static.yaml
