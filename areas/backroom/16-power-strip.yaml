@@ -1,7 +1,7 @@
 substitutions:
   device_name: "aquaponicsrelays"
   pretty_name:  "Aquaponics Relays"
-  ip_address: 192.168.99.47
+  ip_address: 192.168.99.56
 
 esphome:
   name: $device_name
@@ -15,123 +15,125 @@ esphome:
 <<: !include ../../devices/d1_mini/standard.yaml
 
 i2c:
-  sda: D2
-  scl: D1
 
 mcp23017:
   - id: hub
-    address: 0x20
+    address: 0x27
 
 switch:
-  - platform: gpio
-    name: "${pretty_name} CH 1"
-    pin:
-      mcp23017: hub
-      number: 0
-      mode: OUTPUT
-      inverted: True
-  - platform: gpio
-    name: "${pretty_name} CH 2"
-    pin:
-      mcp23017: hub
-      number: 1
-      mode: OUTPUT
-      inverted: True
-  - platform: gpio
-    name: "${pretty_name} CH 3"
-    pin:
-      mcp23017: hub
-      number: 2
-      mode: OUTPUT
-      inverted: True
-  - platform: gpio
-    name: "${pretty_name} CH 4"
-    pin:
-      mcp23017: hub
-      number: 3
-      mode: OUTPUT
-      inverted: True
-  - platform: gpio
-    name: "${pretty_name} CH 5"
-    pin:
-      mcp23017: hub
-      number: 4
-      mode: OUTPUT
-      inverted: True
-  - platform: gpio
-    name: "${pretty_name} CH 6"
-    pin:
-      mcp23017: hub
-      number: 5
-      mode: OUTPUT
-      inverted: True
-  - platform: gpio
-    name: "${pretty_name} CH 7"
-    pin:
-      mcp23017: hub
-      number: 6
-      mode: OUTPUT
-      inverted: True
-  - platform: gpio
-    name: "${pretty_name} CH 8"
-    pin:
-      mcp23017: hub
-      number: 7
-      mode: OUTPUT
-      inverted: True
-  - platform: gpio
-    name: "${pretty_name} CH 9"
-    pin:
-      mcp23017: hub
-      number: 8
-      mode: OUTPUT
-      inverted: True
-  - platform: gpio
-    name: "${pretty_name} CH 10"
-    pin:
-      mcp23017: hub
-      number: 9
-      mode: OUTPUT
-      inverted: True
-  - platform: gpio
-    name: "${pretty_name} CH 11"
-    pin:
-      mcp23017: hub
-      number: 10
-      mode: OUTPUT
-      inverted: True
-  - platform: gpio
-    name: "${pretty_name} CH 12"
-    pin:
-      mcp23017: hub
-      number: 11
-      mode: OUTPUT
-      inverted: True
-  - platform: gpio
-    name: "${pretty_name} CH 13"
-    pin:
-      mcp23017: hub
-      number: 12
-      mode: OUTPUT
-      inverted: True
-  - platform: gpio
-    name: "${pretty_name} CH 14"
-    pin:
-      mcp23017: hub
-      number: 13
-      mode: OUTPUT
-      inverted: True
-  - platform: gpio
-    name: "${pretty_name} CH 15"
-    pin:
-      mcp23017: hub
-      number: 14
-      mode: OUTPUT
-      inverted: True
-  - platform: gpio
-    name: "${pretty_name} CH 16"
-    pin:
-      mcp23017: hub
-      number: 15
-      mode: OUTPUT
-      inverted: True
+  - platform: restart
+    name: "${pretty_name} Restart"
+
+# switch:
+#   - platform: gpio
+#     name: "${pretty_name} CH 1"
+#     pin:
+#       mcp23xxx: hub
+#       number: 0
+#       mode: OUTPUT
+#       inverted: True
+#   - platform: gpio
+#     name: "${pretty_name} CH 2"
+#     pin:
+#       mcp23xxx: hub
+#       number: 1
+#       mode: OUTPUT
+#       inverted: True
+#   - platform: gpio
+#     name: "${pretty_name} CH 3"
+#     pin:
+#       mcp23xxx: hub
+#       number: 2
+#       mode: OUTPUT
+#       inverted: True
+#   - platform: gpio
+#     name: "${pretty_name} CH 4"
+#     pin:
+#       mcp23xxx: hub
+#       number: 3
+#       mode: OUTPUT
+#       inverted: True
+#   - platform: gpio
+#     name: "${pretty_name} CH 5"
+#     pin:
+#       mcp23xxx: hub
+#       number: 4
+#       mode: OUTPUT
+#       inverted: True
+#   - platform: gpio
+#     name: "${pretty_name} CH 6"
+#     pin:
+#       mcp23xxx: hub
+#       number: 5
+#       mode: OUTPUT
+#       inverted: True
+#   - platform: gpio
+#     name: "${pretty_name} CH 7"
+#     pin:
+#       mcp23xxx: hub
+#       number: 6
+#       mode: OUTPUT
+#       inverted: True
+#   - platform: gpio
+#     name: "${pretty_name} CH 8"
+#     pin:
+#       mcp23xxx: hub
+#       number: 7
+#       mode: OUTPUT
+#       inverted: True
+#   - platform: gpio
+#     name: "${pretty_name} CH 9"
+#     pin:
+#       mcp23xxx: hub
+#       number: 8
+#       mode: OUTPUT
+#       inverted: True
+#   - platform: gpio
+#     name: "${pretty_name} CH 10"
+#     pin:
+#       mcp23xxx: hub
+#       number: 9
+#       mode: OUTPUT
+#       inverted: True
+#   - platform: gpio
+#     name: "${pretty_name} CH 11"
+#     pin:
+#       mcp23xxx: hub
+#       number: 10
+#       mode: OUTPUT
+#       inverted: True
+#   - platform: gpio
+#     name: "${pretty_name} CH 12"
+#     pin:
+#       mcp23xxx: hub
+#       number: 11
+#       mode: OUTPUT
+#       inverted: True
+#   - platform: gpio
+#     name: "${pretty_name} CH 13"
+#     pin:
+#       mcp23xxx: hub
+#       number: 12
+#       mode: OUTPUT
+#       inverted: True
+#   - platform: gpio
+#     name: "${pretty_name} CH 14"
+#     pin:
+#       mcp23xxx: hub
+#       number: 13
+#       mode: OUTPUT
+#       inverted: True
+#   - platform: gpio
+#     name: "${pretty_name} CH 15"
+#     pin:
+#       mcp23xxx: hub
+#       number: 14
+#       mode: OUTPUT
+#       inverted: True
+#   - platform: gpio
+#     name: "${pretty_name} CH 16"
+#     pin:
+#       mcp23xxx: hub
+#       number: 15
+#       mode: OUTPUT
+#       inverted: True

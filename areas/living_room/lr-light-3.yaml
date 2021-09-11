@@ -1,0 +1,7 @@
+substitutions:
+  device_name: lr_light_3
+  pretty_name: "Living Room #3"
+  restore_mode: ALWAYS_ON
+  ip_address: 192.168.99.59
+
+<<: !include ../../devices/sonoff/basic-static.yaml

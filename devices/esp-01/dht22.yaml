@@ -1,7 +1,7 @@
 # This is for a ESP-01 board that has a built-in DHT22 sensor
-# I have yet to get them to work at all, the boards themselves
-# are crap I think.
-
+# ESPHome 1.18.0-dev+ required because the DHT22_TYPE2 is the
+# only thing that works.
+# 
 # https://smile.amazon.com/gp/product/B07XBRP9WL/
 
 esphome:
@@ -10,16 +10,16 @@ esphome:
   board: esp01_1m
   build_path: "./build/${device_name}"
 
-<<: !include ../../common/standard.yaml
+<<: !include ../../common/standard-static.yaml
 <<: !include ../../common/sensor/standard.yaml
 <<: !include ../../common/text_sensor/standard.yaml
 
 sensor:
   - platform: dht
-    pin: 2
+    pin: GPIO2
     temperature:
       name: "${pretty_name} Temperature"
     humidity:
       name: "${pretty_name} Humidity"
     update_interval: 10s
-    model: AM2302
+    model: DHT22_TYPE2
