@@ -5,6 +5,7 @@ switch:
     name: "${pretty_name} CH 1"
     pin: GPIO12
     id: relay1
+    inverted: true
 
   - platform: restart
     name: "${pretty_name} Restart"
