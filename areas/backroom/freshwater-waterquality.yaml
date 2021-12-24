@@ -1,0 +1,51 @@
+substitutions:
+  device_name: freshwater-waterquality
+  pretty_name: "Freshwater Water Quality"
+  ip_address: 192.168.99.68
+
+
+esphome:
+  name: $device_name
+  platform: ESP8266
+  board: d1_mini
+  build_path: "./build/${device_name}"
+  includes:
+    - caperplus_q2_uart_sensor.h
+
+<<: !include ../../common/standard-static.yaml
+<<: !include ../../common/sensor/standard.yaml
+<<: !include ../../common/text_sensor/standard.yaml
+
+logger:
+  baud_rate: 0 #disable logging over uart
+
+uart:
+  id: uart_bus
+  rx_pin: GPIO3
+  parity: NONE
+  data_bits: 8
+  stop_bits: 1
+  baud_rate: 9600
+
+sensor:
+  - platform: custom
+    lambda: |-
+      auto caper = new CaperPlusQ2UartSensor(id(uart_bus));
+      App.register_component(caper);
+
+      return {caper->temperature_sensor, caper->ph_sensor, caper->tds_sensor};
+    sensors:
+      - name: "Water Temperature"
+        unit_of_measurement: "°C"
+        accuracy_decimals: 1
+        state_class: measurement
+        device_class: temperature
+      - name: "Water pH"
+        unit_of_measurement: "pH"
+        icon: mdi:ph
+        accuracy_decimals: 2
+        state_class: measurement
+      - name: "Water TDS"
+        unit_of_measurement: "ppm"
+        accuracy_decimals: 0
+        state_class: measurement
